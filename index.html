@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guitar Loop Experience</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      background: black;
+    }
+
+    #main {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #guitar-img {
+      width: 60%;
+      max-width: 600px;
+    }
+
+    .string {
+      position: absolute;
+      height: 4px;
+      width: 40%;
+      left: 30%;
+      background: rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .string:hover {
+      background: yellow;
+    }
+
+    /* Position 6 horizontal strings */
+    #string1 { top: 35%; }
+    #string2 { top: 40%; }
+    #string3 { top: 45%; }
+    #string4 { top: 50%; }
+    #string5 { top: 55%; }
+    #string6 { top: 60%; }
+
+    #player {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: black;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    video {
+      width: 80%;
+      max-width: 800px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="main">
+  <!-- Replace this image with your own -->
+  <img id="guitar-img" src="your-guitar-image.jpg" alt="Guitar" />
+
+  <!-- 6 horizontal strings -->
+  <div class="string" id="string1" data-video="video1.mp4"></div>
+  <div class="string" id="string2" data-video="video2.mp4"></div>
+  <div class="string" id="string3" data-video="video3.mp4"></div>
+  <div class="string" id="string4" data-video="video4.mp4"></div>
+  <div class="string" id="string5" data-video="video5.mp4"></div>
+  <div class="string" id="string6" data-video="video6.mp4"></div>
+</div>
+
+<div id="player">
+  <video id="video" controls></video>
+  <button onclick="exitVideo()">Return</button>
+</div>
+
+<script>
+  const strings = document.querySelectorAll('.string');
+  const main = document.getElementById('main');
+  const player = document.getElementById('player');
+  const video = document.getElementById('video');
+
+  strings.forEach(string => {
+    string.addEventListener('click', () => {
+      const src = string.getAttribute('data-video');
+      playVideo(src);
+    });
+  });
+
+  function playVideo(src) {
+    main.style.display = 'none';
+    player.style.display = 'flex';
+    video.src = src;
+    video.play();
+
+    video.onended = () => {
+      exitVideo();
+    };
+  }
+
+  function exitVideo() {
+    video.pause();
+    video.currentTime = 0;
+    player.style.display = 'none';
+    main.style.display = 'flex';
+  }
+</script>
+
+</body>
+</html>
